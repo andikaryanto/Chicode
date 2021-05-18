@@ -1,0 +1,97 @@
+<div class="sidebar">
+    <div class="sidebar-wrapper">
+        <div class="logo-sidebar d-flex">
+            <img src="<?= baseUrl('public/assets/images/balimore-mini-logo.jpg') ?>" alt="logo balimore" width="60" height="60" style="border-radius: 5px;">
+            <h4>
+                Admin
+                <br> MBF
+            </h4>
+        </div>
+        <div class="nav flex-column nav-pills menu-list">
+            <a href="<?= baseUrl('office/msetting') ?>" class="nav-link screensaver <?= activeMenu($menuName, 'setting')?>">
+                <i>
+          <div class="icon-sidebar icon-popup"></div>
+        </i> Pengaturan
+            </a>
+            <a href="<?= baseUrl('office/mpopup') ?>" class="nav-link screensaver <?= activeMenu($menuName, 'popup')?>">
+                <i>
+          <div class="icon-sidebar icon-popup"></div>
+        </i> Popup
+            </a>
+            <a href="<?= baseUrl('office/mbranch') ?>" class="nav-link profil <?= activeMenu($menuName, 'branch')?>">
+                <i>
+          <div class="icon-sidebar icon-cabang"></div>
+        </i> Cabang
+            </a>
+            <a href="<?= baseUrl('office/mcity') ?>" class="nav-link setting <?= activeMenu($menuName, 'city')?>">
+                <i>
+          <div class="icon-sidebar icon-kota"></div>
+        </i> Kota
+            </a>
+            <a href="<?= baseUrl('office/mdealer') ?>" class="nav-link setting <?= activeMenu($menuName, 'dealer')?>">
+                <i>
+          <div class="icon-sidebar icon-dealer"></div>
+        </i> Dealer
+            </a>
+            <a href="<?= baseUrl('office/mvehicle') ?>" class="nav-link setting <?= activeMenu($menuName, 'vehicle')?>">
+                <i>
+          <div class="icon-sidebar icon-model-kendaraan"></div>
+        </i> Model Kendaraan
+            </a>
+            <!-- <a href="<?= baseUrl('office/mtenor') ?>" class="nav-link setting">
+        <i>
+          <div class="icon-sidebar icon-model-kendaraan"></div>
+        </i>
+        Tenor
+      </a>
+      <a href="<?= baseUrl('office/minsurance') ?>" class="nav-link setting">
+        <i>
+          <div class="icon-sidebar icon-model-kendaraan"></div>
+        </i>
+        Asuransi
+      </a> -->
+            <a href="<?= baseUrl('office/mvehicletype') ?>" class="nav-link setting <?= activeMenu($menuName, 'vehicletype')?>">
+                <i>
+          <div class="icon-sidebar icon-type-kendaraan"></div>
+        </i> Type Kendaaraan
+            </a>
+            <!-- <a href="<?= baseUrl('office/mexistingmember') ?>" class="nav-link setting <?= activeMenu($menuName, 'existingmember')?>">
+        <i>
+          <div class="icon-sidebar icon-existing-member"></div>
+        </i>
+        Existing Member
+      </a> -->
+            <a href="<?= baseUrl('office/mexistingmemberprospective') ?>" class="nav-link setting <?= activeMenu($menuName, 'existingmemberprospective')?>">
+                <i>
+          <div class="icon-sidebar icon-prospective-member"></div>
+        </i> Prospective Member
+            </a>
+            <a href="<?= baseUrl('office/mbanner') ?>" class="nav-link setting <?= activeMenu($menuName, 'banner')?>">
+                <i>
+          <div class="icon-sidebar icon-banner"></div>
+        </i> Banner
+            </a>
+            <a href="<?= baseUrl('office/mhistoryclick') ?>" class="nav-link setting <?= activeMenu($menuName, 'historyclick')?>">
+                <i>
+          <div class="icon-sidebar icon-histori-klik-tenor"></div>
+        </i> History Klik Tenor
+            </a>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script>
+        // $(function() {
+        //   $('.nav-link[href^="/' + location.pathname.split("/")[1] + '"]').addClass('active');
+        // });
+    </script>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.6/dropzone.js" integrity="sha512-/diY7kiMCU8WBbgrhBMJjMDtrsJGPP2LQG4gaw9tHRYlQ50sJLhAQZH/MSpEPdQHcY0YXYfsosyjMArCDTa3SA==" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <script src="<?= baseUrl('public/assets/js/mainapp.js') ?>"></script>
+</div>

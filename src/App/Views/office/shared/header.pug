@@ -1,0 +1,18 @@
+nav(class="navbar navbar-expand-lg navbar-light bg-light")
+    div(class="container-fluid justify-content-end")
+        div(class="sidebar-toggle")
+            button(class="btn-toggle-sidebar")
+                i(class="fa fa-bars")
+        div(class="dropdown")
+            a(class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false")
+                div(class="img-profile")
+                span(class="d-inline-block") Hello Admin
+            ul(class="dropdown-menu" aria-labelledby="dropdownMenuLink")
+                li
+                    a(href="/office/muser" class="dropdown-item py-2")
+                        i(class="fa fa-user me-2") 
+                        | Pengaturan Akun
+                li
+                    a(class="dropdown-item py-2" href="/office/login/dologout")
+                        i(class="fa fa-power-off me-2") 
+                        | Log Out

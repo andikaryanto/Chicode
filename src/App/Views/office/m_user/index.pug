@@ -1,0 +1,156 @@
+
+doctype html
+html
+    //- extends ../shared
+    include ../shared/head
+
+        
+    body 
+        style(type='text/css').
+            th,
+            td {
+                white-space: nowrap;
+            }
+        div(class="d-flex vh-100")
+            include ../shared/sidebar
+            div(class="content col overflow-hidden")
+                include ../shared/header 
+                    
+                div(class="main-content p-4")
+                    div(class="page-width h-100 w-100 position-relative")
+                        h2(class="text-start")= title
+                        a(href="/office/muser/add" class="btn btn-info px-5 py-3 position-absolute rounded-pill" style="right: 0;")
+                            i(class="fa fa-plus mr-2")
+                            |  Tambah
+                        table(id="tableUser" class="table table-striped table-bordered" style="width:100%")
+                            thead
+                                tr
+                                    th #
+                                    th(class="disabled-sorting") No
+                                    th Pengguna
+                                    th Grup Pengguna
+                                    th Dibuat
+                                    th(class="disabled-sorting") Action
+            include ../shared/footer
+        script.
+            $(document).ready(function() {
+
+                // init();
+                
+                dataTable();
+            });
+
+
+            var table = null;
+            var selectedData = null;
+
+            $("#btnDeleteDealer").on("click", function() {
+                if (selectedData != null) {
+                    $.ajax({
+                        url: "office/mdealer/" + selectedData[0],
+                        type: "DELETE",
+                        dataType: "json",
+                        success: function(status) {
+                            if (status.Response.Code == 2012) {
+                                window.location = baseUrl + 'Forbidden';
+                            } else if (!status.Response.Code == 2013) {
+                                var message = status.Message;
+                                // setNotification(message, 3, "bottom", "right");
+                            } else {
+                                var message = status.Message;
+                                // setNotification(message, 2, "bottom", "right");
+
+                                window.location.reload();
+                            }
+
+                        }
+                    });
+                }
+            });
+
+            function branchChange(id, fieldChange) {
+                if (id > 0) {
+                    $.ajax({
+                        url: '/office/mbranch/getbyid/' + id,
+                        type: 'POST',
+                        dataType: "json",
+                        success: function(data) {
+
+                            $("#" + fieldChange).html(data.Data.Address);
+                            $("#" + fieldChange).summernote("code", data.Data.Address);
+                        }
+                    });
+                } else {
+                    $("#" + fieldChange).html("");
+                    $("#" + fieldChange).summernote("code", "");
+                }
+            }
+
+
+            function getTableIndex(dtTable) {
+                table = dtTable;
+                table.on('click', '.edit', function() {
+                    $tr = $(this).closest('tr');
+                    var data = table.row($tr).data();
+                    id = data[0];
+                    $.ajax({
+                        url: "/office/muser/getbyid/" + id,
+                        dataType: "json",
+                        type: "POST",
+                        success: function(data) {
+                            if (data.Response.Code == 1000) {
+                                $("#DealerIdEdit").val(data.Data.Id);
+                                $("#NameEdit").val(data.Data.Name); -
+                                $('#BranchIdEdit option[value=' + data.Data.M_Branch_Id + ']').attr('selected', 'selected');
+                                // branchChange(data.Data.M_Branch_Id, "Address2Edit");
+                                $('#CityIdEdit option[value=' + data.Data.M_City_Id + ']').attr('selected', 'selected');
+                                $("#Address1Edit").html(data.Data.Address1);
+                                $("#Address1Edit").summernote("code", data.Data.Address1);
+                                $("#Address2Edit").html(data.Data.Address2);
+                                $("#Address2Edit").summernote("code", data.Data.Address2);
+                                $("#LinkEdit").val(data.Data.Link);
+                                $("#Box1Edit").val(data.Data.Box1);
+                                $("#Box2Edit").val(data.Data.Box2);
+                                $("#Box3Edit").val(data.Data.Box3);
+                            }
+                        }
+                    });
+                });
+
+                table.on('click', '.delete', function() {
+                    $tr = $(this).closest('tr');
+                    var data = table.row($tr).data();
+                    selectedData = data;
+
+                });
+
+            }
+
+            function dataTable() {
+                var sourceData = "/office/muser/getalldata";
+                var caption = "";
+                var columns = [{
+                        responsivePriority: 6
+                    },
+                    {
+                        responsivePriority: 1
+                    },
+                    {
+                        responsivePriority: 2
+                    },
+                    {
+                        responsivePriority: 3
+                    },
+                    {
+                        responsivePriority: 4
+                    },
+                    {
+                        responsivePriority: 5
+                    }
+                ];
+                loadIndexDataTable("tableUser", sourceData, caption, null, columns, getTableIndex, "/");
+
+
+            }
+
+                                        
