@@ -1,0 +1,40 @@
+
+doctype html
+html
+    //- extends ../shared
+    include ../shared/head
+
+        
+    body 
+          style(type='text/css').
+               th,
+               td {
+                    white-space: nowrap;
+               }
+          div(class="d-flex vh-100")
+               include ../shared/sidebar
+               div(class="content col overflow-hidden")
+                    include ../shared/header 
+                         
+                    div(class="main-content p-4")
+                         div(class="page-width h-100 w-100 position-relative")
+                              h2(class="text-start")= title
+                              div(class="form-input-group mt-5 text-start")
+                                   h3(class="mb-0") Tambah
+                                   form(action="/office/mcolor/store" class="text-left form-validate" method="POST")
+                                        div(class="row py-3 form-group mt-2")
+
+                                             div(class="col-md-12 pt-3")
+                                                  label(for="groupname") Nama
+                                                  input(type="text" name="Name" id="name" value="" class="form-control")
+                                             
+                                             div(class="col-md-12 pt-3")
+                                                  label(for="description") Deskripsi
+                                                  textarea(name="Description" id="description" value="" class="form-control")
+
+                                        div(class="row py-3 mx-0")
+                                             button(type="submit" class="btn btn-info rounded-pill py-3" style="max-width: 200px") Simpan
+                                   
+
+               include ../shared/footer
+          

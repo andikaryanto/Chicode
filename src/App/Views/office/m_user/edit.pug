@@ -20,13 +20,13 @@ html
                          div(class="page-width h-100 w-100 position-relative")
                               h2(class="text-start")= title
                               div(class="form-input-group mt-5 text-start")
-                                   h3(class="mb-0") Tambah
+                                   h3(class="mb-0") Edit
                                    form(action="/office/muser/store" class="text-left form-validate" method="POST" enctype="multipart/form-data")
                                         div(class="row py-3 form-group mt-2")
 
                                              div(class="col-md-12 pt-3")
                                                   label(for="groupname") Nama Pengguna
-                                                  input(type="text" name="Username" id="username" value="" class="form-control")
+                                                  input(type="text" name="Username" id="username" value=user.Username class="form-control")
                                              
                                              div(class="col-md-12 pt-3")
                                                   label(for="description") Password

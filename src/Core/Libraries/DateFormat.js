@@ -20,6 +20,12 @@ class DateFormat {
      static getCurrentDate(format){
           return moment().format(format);
      }
+
+     static getFromatedDate(date, fromFormat = "YYYY-MM-DD HH:mm:ss",  format = "YYYY-MM-DD HH:mm:ss"){
+          if(date == null)
+               return null;
+          return moment(date, fromFormat).format(format);
+     }
 }
 
 export default DateFormat;

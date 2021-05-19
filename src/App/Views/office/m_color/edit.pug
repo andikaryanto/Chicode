@@ -1,0 +1,36 @@
+
+doctype html
+html
+    //- extends ../shared
+    include ../shared/head
+
+        
+    body 
+          div(class="d-flex vh-100")
+               include ../shared/sidebar
+               div(class="content col overflow-hidden")
+                    include ../shared/header 
+                         
+                    div(class="main-content p-4")
+                         div(class="page-width h-100 w-100 position-relative")
+                              h2(class="text-start")= title
+                              div(class="form-input-group mt-5 text-start")
+                                   h3(class="mb-0") Edit
+                                   form(action="/office/mcolor/update" class="text-left form-validate" method="POST")
+                                        div(class="row py-3 form-group mt-2")
+
+                                             input(hidden type="text" name="Id" id="Id" value=data.Id class="form-control")
+                                             div(class="col-md-12 pt-3")
+                                                  label(for="groupname") Nama 
+                                                  input(type="text" name="Name" id="name" value=data.Name class="form-control")
+                                             
+                                             div(class="col-md-12 pt-3")
+                                                  label(for="description") Deskripsi
+                                                  textarea(name="Description" id="description" class="form-control") #{data.Description}
+
+                                        div(class="row py-3 mx-0")
+                                             button(type="submit" class="btn btn-info rounded-pill py-3" style="max-width: 200px") Simpan
+                                   
+
+               include ../shared/footer
+          

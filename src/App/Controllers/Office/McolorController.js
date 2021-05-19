@@ -1,5 +1,5 @@
 import ResponseCode from "../../Constants/ResponseCode.js";
-import M_groupusers from "../../Models/M_groupusers.js";
+import M_colors from "../../Models/M_colors.js";
 import { renderToString } from 'react-dom/server';
 import View from "../../../Core/Controller/View.js";
 import ResponseData from "../../../Core/Controller/ResponseData.js";
@@ -10,7 +10,7 @@ import M_users from "../../Models/M_users.js";
 import ModelError from "../../Errors/ModelError.js";
 import DateFormat from "../../../Core/Libraries/DateFormat.js";
 
-class MgroupuserController extends BaseController {
+class McolorController extends BaseController {
 
     constructor() {
         super();
@@ -18,8 +18,8 @@ class MgroupuserController extends BaseController {
 
     async index() {
         try {
-            return View.make('office/m_groupuser/index', { title: 'Grup Pengguna' });
-            // res.render('office/m_groupuser/index', { title : 'Grup Pengguna' } );
+            return View.make('office/m_color/index', { title: 'Warna' });
+            // res.render('office/m_color/index', { title : 'Warna' } );
         } catch (e) {
             // var result = {
             //     Message: e.message,
@@ -34,7 +34,7 @@ class MgroupuserController extends BaseController {
     async getAllData() {
         try {
             let filter = {}
-            let datatables = M_groupusers.datatables(filter);
+            let datatables = M_colors.datatables(filter);
             datatables.addDtRowClass('rowdetail').
                 addDtRowId('Id').
                 addColumn(
@@ -54,7 +54,7 @@ class MgroupuserController extends BaseController {
                     false
                 ).
                 addColumn(
-                    'GroupName',
+                    'Name',
                 ).
                 addColumn(
                     'Description'
@@ -71,7 +71,7 @@ class MgroupuserController extends BaseController {
                     '',
                     null,
                     function (row, id) {
-                        return `<a href='/office/mgroupuser/${row.Id}/edit' class='btn btn-info edit'>Ubah</a>
+                        return `<a href='/office/mcolor/${row.Id}/edit' class='btn btn-info edit'>Ubah</a>
                         <a href='#' class='btn btn-danger delete' data-bs-toggle='modal' data-bs-target='#hapusModal'>Hapus</a>`;
                     },
                     false,
@@ -91,53 +91,53 @@ class MgroupuserController extends BaseController {
     }
 
     add() {
-        return View.make("office/m_groupuser/add", { title: 'Grup Pengguna' });
+        return View.make("office/m_color/add", { title: 'Warna' });
     }
 
     async store({ request, session }) {
         try {
             const body = request.body;
-            let groupuser = new M_groupusers();
-            groupuser.GroupName = body.Groupname;
-            groupuser.Description = body.Description;
-            groupuser.Created = DateFormat.getCurrentDate("YYYY-MM-DD HH:mm:ss");
-            if (! await groupuser.save())
-                throw new ModelError("Gagal Menyimpan Grup Pengguna");
+            let color = new M_colors();
+            color.Name = body.Name;
+            color.Description = body.Description;
+            color.Created = DateFormat.getCurrentDate("YYYY-MM-DD HH:mm:ss");
+            if (! await color.save())
+                throw new ModelError("Gagal Menyimpan Warna");
 
-            return Redirect.to("/office/mgroupuser");
+            return Redirect.to("/office/mcolor");
         } catch (e) {
-            return Redirect.to("/office/mgroupuser/add");
+            return Redirect.to("/office/mcolor/add");
         }
     }
 
     async edit({ params }) {
         const id = params.id;
-        let groupuser = await M_groupusers.find(id);
-        return View.make("office/m_groupuser/edit", { title: 'Grup Pengguna', data: groupuser });
+        let color = await M_colors.find(id);
+        return View.make("office/m_color/edit", { title: 'Warna', data: color });
     }
 
 
     async update({ request }) {
         const body = request.body;
         try {
-            let groupuser = await M_groupusers.find(body.Id);
-            groupuser.GroupName = body.Groupname;
-            groupuser.Description = body.Description;
-            if (! await groupuser.save())
-                throw new ModelError("Gagal Mengubah Grup Pengguna");
+            let color = await M_colors.find(body.Id);
+            color.Name = body.Name;
+            color.Description = body.Description;
+            if (! await color.save())
+                throw new ModelError("Gagal Mengubah Warna");
 
-            return Redirect.to("/office/mgroupuser");
+            return Redirect.to("/office/mcolor");
         } catch (e) {
-            return Redirect.to(`/office/mgroupuser/${body.Id}/edit`);
+            return Redirect.to(`/office/mcolor/${body.Id}/edit`);
         }
     }
 
     async destroy({ request }) {
         const body = request.body;
         try {
-            let groupuser = await M_groupusers.find(body.Id);
-            if (! await groupuser.delete())
-                throw new ModelError("Gagal Menghapus Grup Pengguna");
+            let color = await M_colors.find(body.Id);
+            if (! await color.delete())
+                throw new ModelError("Gagal Menghapus Warna");
 
             let result = {
                 Message :  "Berhasil Menghapus Data",
@@ -157,4 +157,4 @@ class MgroupuserController extends BaseController {
 
 }
 
-export default MgroupuserController;
+export default McolorController;

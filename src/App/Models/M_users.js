@@ -29,6 +29,38 @@ class M_users extends BaseModel {
 
      }
 
+     validate() {
+          let vRules = this.validationRules();
+          let validation = this.validateRules(vRules.rules, vRules.errors);
+          validation.setAttributeNames(vRules.attributName);
+          if (validation.fails()) {
+               for (const [key, value] of Object.entries(validation.errors.errors)) {
+                    throw new ModelError(value[0]);
+               }
+          }
+          return this;
+     }
+
+     validationRules() {
+          let rulesAndError = {
+               rules: {
+                    Username: 'required',
+                    Password: 'required',
+                    M_Groupuser_Id: 'required',
+               },
+               errors: {
+                    required: ":attribute Harus Isi",
+               },
+               attributName: {
+                    Username: "Nama Pengguna",
+                    Password: "Password",
+                    M_Groupuser_Id: "Role"
+               }
+          };
+
+          return rulesAndError;
+     }
+
      setPassword(password){
           
           if(this.Username == null)
