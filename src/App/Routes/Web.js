@@ -55,6 +55,7 @@ const Web = () => {
                routers.get("/:id/edit", [], MwiretypeController, "edit");
                routers.post("/update", [], MwiretypeController, "update");
                routers.post("/delete", [], MwiretypeController, "destroy");
+               routers.post("/import", [], MwiretypeController, "import");
           });
      });
      

@@ -15,7 +15,18 @@ class M_wiretypes extends BaseModel {
           super("m_wiretypes", "Id");
      }
 
-     validate() {
+     async validate() {
+         
+          const params = {
+               where : {
+                    Name : this.Name
+               }
+          }
+          let existed = await M_wiretypes.findOne(params);
+          if(existed != null){
+               throw new ModelError("Data Suda Ada");
+          }
+
           let vRules = this.validationRules();
           let validation = this.validateRules(vRules.rules, vRules.errors);
           validation.setAttributeNames(vRules.attributName);

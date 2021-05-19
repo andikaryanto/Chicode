@@ -9,6 +9,11 @@ import DbConnection from "../../../Core/Database/Connection/DbConnection.js";
 import M_users from "../../Models/M_users.js";
 import ModelError from "../../Errors/ModelError.js";
 import DateFormat from "../../../Core/Libraries/DateFormat.js";
+import File from "../../../Core/Libraries/File.js";
+import approot from 'app-root-path';
+import fs from 'fs';
+import { parse } from 'fast-csv';
+import UploadedFileError from "../../../Core/Errors/UploadedFileError.js";
 
 class MwiretypeController extends BaseController {
 
@@ -62,7 +67,7 @@ class MwiretypeController extends BaseController {
                 addColumn(
                     'Created',
                     null,
-                    function(row, id){
+                    function (row, id) {
                         return DateFormat.getFromatedDate(row.Created)
                     },
                     false
@@ -140,18 +145,76 @@ class MwiretypeController extends BaseController {
                 throw new ModelError("Gagal Menghapus Warna");
 
             let result = {
-                Message :  "Berhasil Menghapus Data",
-                Data : null,
-                Response : ResponseCode.OK
-             }
+                Message: "Berhasil Menghapus Data",
+                Data: null,
+                Response: ResponseCode.OK
+            }
             return ResponseData.status(200).json(result);
         } catch (e) {
             let result = {
-                Message :  e.message,
-                Data : null,
-                Response : ResponseCode.FAILED_DELETE_DATA
-             }
+                Message: e.message,
+                Data: null,
+                Response: ResponseCode.FAILED_DELETE_DATA
+            }
             return ResponseData.status(400).json(result);
+        }
+    }
+
+    async import({ request }) {
+        const body = request.body;
+        try {
+            let file = new File("assets/upload/importwiretype", 2000, ["csv"]);
+            let files = request.getFiles("file");
+
+            if (Array.isArray(files)) {
+                for (let img in files) {
+                    if (! await file.upload(files[img])) {
+                        throw new UploadedFileError("Gagal")
+                    }
+                }
+            } else {
+                if (! await file.upload(files)) {
+                    throw new UploadedFileError("Gagal")
+                }
+            }
+
+
+            let csvRows = [];
+            let path = approot + "/src/" + file.getFileUrl();
+            fs.createReadStream(path)
+                .pipe(parse({ headers: true }))
+                .on("error", (error) => {
+                    throw error.message;
+                })
+                .on("data", (row) => {
+                    csvRows.push(row);
+                })
+                .on("end", async () => {
+                    try {
+                        for (let row of csvRows) {
+                            let wireType = new M_wiretypes();
+                            wireType.Name = row.Nama;
+                            wireType.Description = row.Nama;
+                            wireType.Created = DateFormat.getCurrentDate("YYYY-MM-DD HH:mm:ss");
+                            await wireType.validate();
+                            if (! await wireType.save())
+                                throw new ModelError("Gagal Import CSV");
+
+                        }
+                        fs.unlinkSync(path);
+                    } catch(e) {
+                        return Redirect.to("/office/mwiretype")
+                    }
+                });
+
+
+            return Redirect.to("/office/mwiretype")
+        } catch (e) {
+            if (e instanceof ModelError) {
+                console.log(e.message)
+            }
+            console.log(e.message);
+            return Redirect.to("/office/mwiretype")
         }
     }
 
