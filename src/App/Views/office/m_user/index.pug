@@ -29,6 +29,7 @@ html
                                     th(class="disabled-sorting") No
                                     th Pengguna
                                     th Grup Pengguna
+                                    th Photo
                                     th Dibuat
                                     th(class="disabled-sorting") Action
             include ../shared/footer
@@ -130,7 +131,7 @@ html
                 var sourceData = "/office/muser/getalldata";
                 var caption = "";
                 var columns = [{
-                        responsivePriority: 6
+                        responsivePriority: 7
                     },
                     {
                         responsivePriority: 1
@@ -146,6 +147,9 @@ html
                     },
                     {
                         responsivePriority: 5
+                    },
+                    {
+                        responsivePriority: 6
                     }
                 ];
                 loadIndexDataTable("tableUser", sourceData, caption, null, columns, getTableIndex, "/");

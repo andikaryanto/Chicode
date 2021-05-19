@@ -2,6 +2,7 @@ import Routers from "../../Core/Config/Routers.js"
 import LoginController from "../Controllers/Office/LoginController.js";
 import MgroupuserController from "../Controllers/Office/MgroupuserController.js";
 import McolorController from "../Controllers/Office/McolorController.js";
+import MwiretypeController from "../Controllers/Office/MwiretypeController.js";
 import MuserController from "../Controllers/Office/MuserController.js";
 import OfficeMiddleware from "../Middlewares/OfficeMiddleware.js";
 
@@ -44,6 +45,16 @@ const Web = () => {
                routers.get("/:id/edit", [], McolorController, "edit");
                routers.post("/update", [], McolorController, "update");
                routers.post("/delete", [], McolorController, "destroy");
+          });
+
+          routers.group("/mwiretype", [], routers => {
+               routers.get("", [], MwiretypeController, "index");
+               routers.post("/getalldata", [], MwiretypeController, "getAllData");
+               routers.get("/add", [], MwiretypeController, "add");
+               routers.post("/store", [], MwiretypeController, "store");
+               routers.get("/:id/edit", [], MwiretypeController, "edit");
+               routers.post("/update", [], MwiretypeController, "update");
+               routers.post("/delete", [], MwiretypeController, "destroy");
           });
      });
      

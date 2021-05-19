@@ -66,6 +66,15 @@ class MuserController {
                          'm_groupusers.GroupName',
                     ).
                     addColumn(
+                         'm_users.Photo',
+                         null,
+                         function (row, i) {
+                              return `<div class='img-banner' style='background: url("/${row.Photo}")'></div>`;
+                         },
+                         false,
+                         false
+                    ).
+                    addColumn(
                          'm_users.Created',
                          null,
                          null,
