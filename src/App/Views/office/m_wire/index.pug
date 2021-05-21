@@ -1,0 +1,123 @@
+
+doctype html
+html
+    //- extends ../shared
+    include ../shared/head
+
+        
+    body 
+        style(type='text/css').
+            th,
+            td {
+                white-space: nowrap;
+            }
+        div(class="d-flex vh-100")
+            include ../shared/sidebar
+            div(class="content col overflow-hidden")
+                include ../shared/header 
+                    
+                div(class="main-content p-4")
+                    div(class="page-width h-100 w-100 position-relative")
+                        h2(class="text-start")= title
+                        div(class="button-wrapper position-relative")
+                            a(href="/office/mwiretype/add" class="btn btn-info px-5 py-3 position-absolute rounded-pill" style="right: 200px;")
+                                i(class="fa fa-plus mr-2")
+                                |  Tambah
+                                
+                            a(href="/office/mwiretype/add" class="btn btn-success px-5 py-3 position-absolute rounded-pill" style="right: 0;" data-bs-toggle='modal' data-bs-target='#importModal')
+                                i(class="fa fa-file-excel mr-2")
+                                |  Import
+                       
+                        table(id="tableGroupuser" class="table table-striped table-bordered" style="width:100%")
+                            thead
+                                tr
+                                    th #
+                                    th(class="disabled-sorting") No
+                                    th Nama
+                                    th Deskripsi
+                                    th Dibuat
+                                    th(class="disabled-sorting") Action
+                    
+                        include ./delete 
+                        include ./import 
+            include ../shared/footer
+        script.
+            $(document).ready(function() {
+
+                // init();
+                
+                dataTable();
+            });
+
+
+            var table = null;
+            var selectedData = null;
+
+            $("#btnDeleteGroupUser").on("click", function() {
+                if (selectedData != null) {
+                    $.ajax({
+                        url: "/office/mwiretype/delete",
+                        type: "POST",
+                        data : {
+                            Id : selectedData[0]
+                        },
+                        dataType: "json",
+                        success: function(status) {
+                            if (status.Response.Code == 2012) {
+                                window.location = baseUrl + 'Forbidden';
+                            } else if (!status.Response.Code == 2013) {
+                                var message = status.Message;
+                            } else {
+                                var message = status.Message;
+
+                                window.location.reload();
+                            }
+
+                        }
+                    });
+                }
+            });
+
+            
+
+            function getTableIndex(dtTable) {
+                table = dtTable;
+                
+
+                table.on('click', '.delete', function() {
+                    $tr = $(this).closest('tr');
+                    var data = table.row($tr).data();
+                    selectedData = data;
+
+                });
+
+            }
+
+            function dataTable() {
+                var sourceData = "/office/mwiretype/getalldata";
+                var caption = "";
+                var columns = [{
+                        responsivePriority: 6
+                    },
+                    {
+                        responsivePriority: 1
+                    },
+                    {
+                        responsivePriority: 2
+                    },
+                    {
+                        responsivePriority: 3
+                    },
+                    {
+                        responsivePriority: 4
+                    },
+                    {
+                        responsivePriority: 5
+                    }
+                ];
+                loadIndexDataTable("tableGroupuser", sourceData, caption, null, columns, getTableIndex, "/");
+
+
+            }
+
+                                        

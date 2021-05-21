@@ -1,0 +1,80 @@
+
+doctype html
+html
+    //- extends ../shared
+    include ../shared/head
+
+        
+    body 
+          style(type='text/css').
+               th,
+               td {
+                    white-space: nowrap;
+               }
+          div(class="d-flex vh-100")
+               include ../shared/sidebar
+               div(class="content col overflow-hidden")
+                    include ../shared/header 
+                         
+                    div(class="main-content p-4")
+                         div(class="page-width h-100 w-100 position-relative")
+                              h2(class="text-start")= title
+                              div(class="form-input-group mt-5 text-start")
+                                   h3(class="mb-0") Pengajuan Kabel
+                                   form(action="/office/mwire/store" class="text-left form-validate" method="POST")
+                                        div(class="row py-3 form-group mt-2")
+                                             - var status = ""
+                                                     
+                                             #logical       
+                                             if model.Status == "1"
+                                                  - status = "Diajukan" 
+                                             else if model.Status == "2"
+                                                  - status = "Diterima" 
+                                             else if model.Status == "3"
+                                                  - status = "Ditolak"
+                                             #end
+
+                                             div(class="col-md-12 pt-3")
+                                                  label(for="name") Nama
+                                                  input(type="text" name="Name" id="name" class="form-control" value=model.Name)
+                                             
+                                             div(class="col-md-12 pt-3")
+                                                  label(for="description") Warna
+                                                  select(aria-label=".form-select example"  name="M_Color_id" id="groupuerid" value="" class="form-select form-select mb-3")
+                                                       option(value="0") Pilih Warna
+                                                       each color in colors
+                                                            option(value=color.Id) #{color.Name}
+                                             div(class="col-md-12 pt-3")
+                                                  label(for="description") Jenis
+                                                  select(aria-label=".form-select example"  name="M_Wiretype_Id" id="groupuerid" value="" class="form-select form-select mb-3")
+                                                       option(value="0") Pilih Jenis
+
+                                                       #logical
+                                                       each tipe in types
+                                                            - var select = ""
+                                                            
+                                                            if tipe.Id == model.M_Wiretype_Id
+                                                                - select = "selected" 
+                                                            option(value=tipe.Id selected=select) #{tipe.Name}
+
+                                             div(class="col-md-12 pt-3")
+                                                  label(for="length") Panjang
+                                                  input(type="text" name="Length" id="length" value=model.Length class="form-control")
+                                             div(class="col-md-12 pt-3")
+                                                  label(for="bending") Lekuk
+                                                  input(type="text" name="Bending" id="bending" value=model.Bending class="form-control")
+                                             div(class="col-md-12 pt-3")
+                                                  label(for="loss") Loss
+                                                  input(type="text" name="Loss" id="loss" value=model.Loss class="form-control")
+                                             
+                                             div(class="col-md-12 pt-3")
+                                                  label(for="name") Status
+                                                  input(type="text" name="Status" id="name" class="form-control" placeholder=status readonly)
+                                                  span
+                                                       small(class="text-mute") Akan berubah jika sudah di ajukan
+                                        div(class="row py-3 mx-0")
+                                             button(type="submit" class="btn btn-info rounded-pill py-3" style="max-width: 200px") Simpan
+                                   
+
+               include ../shared/footer
+          

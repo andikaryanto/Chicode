@@ -1,6 +1,6 @@
 import CommonLib from "../Libraries/CommonLib.js";
 import M_users from "../Models/M_users.js";
-
+import jwt from "jsonwebtoken";
 class UserProc {
 
      /**
@@ -17,9 +17,13 @@ class UserProc {
                     Password : userpassword
                }
           };
-     
           let muser = await M_users.findOne(filter);
           return muser;
+     }
+
+     static decode(token){
+          const user = jwt.verify(token, CommonLib.getKey());
+          return user;
      }
 }
 export default UserProc;

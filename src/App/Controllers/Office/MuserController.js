@@ -7,6 +7,7 @@ import M_groupusers from "../../Models/M_groupusers.js";
 import M_users from "../../Models/M_users.js";
 import File from "../../../Core/Libraries/File.js";
 import UploadedFileError from "../../../Core/Errors/UploadedFileError.js";
+import UserProc from "../../BusinessProcess/UserProc.js";
 
 class MuserController {
 
