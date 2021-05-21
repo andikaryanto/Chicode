@@ -1,6 +1,7 @@
 import Routers from "../../Core/Config/Routers.js"
 import GroupuserApi from "../Controllers/Rest/GroupuserApi.js";
 import UserApi from "../Controllers/Rest/UserApi.js";
+import WireApi from "../Controllers/Rest/WireApi.js";
 
 const Api = () => {
      let routers = new Routers();
@@ -13,6 +14,10 @@ const Api = () => {
 
      routers.group("/groupuser", [], routers => {
           routers.get("/list", [], GroupuserApi, "getList").named("groupuser.list");
+     });
+
+     routers.group("/wire", [], routers => {
+          routers.post("/confirm", [], WireApi, "confirmRequest");
      });
 
      return routers.getRouter();

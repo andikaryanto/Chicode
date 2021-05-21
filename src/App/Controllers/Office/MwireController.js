@@ -29,12 +29,23 @@ class MwireController extends BaseController {
 
     async getAllData() {
         try {
-            let filter = {}
+            let filter = {
+                join: {
+                    m_colors: {
+                        key: ["m_wires.M_Color_Id", " m_colors.Id"],
+                        type: "left"
+                    },
+                    m_wiretypes: {
+                        key: ["m_wires.M_Wiretype_Id", "m_wiretypes.Id"],
+                        type: "left"
+                    }
+                }
+            }
             let datatables = M_wires.datatables(filter);
             datatables.addDtRowClass('rowdetail').
-                addDtRowId('Id').
+                addDtRowId('m_wires.Id').
                 addColumn(
-                    'Id',
+                    'm_wires.Id',
                     null,
                     null,
                     false,
@@ -50,18 +61,56 @@ class MwireController extends BaseController {
                     false
                 ).
                 addColumn(
-                    'Name',
+                    'm_wires.Name',
                 ).
                 addColumn(
-                    'Description'
+                    'm_colors.Name.Warna'
                 ).
                 addColumn(
-                    'Created',
+                    'm_wiretypes.Name.Jenis'
+                ).
+                addColumn(
+                    'm_wires.Length',
+                ).
+                addColumn(
+                    'm_wires.Bending',
+                ).
+                addColumn(
+                    'm_wires.Loss',
+                ).
+                addColumn(
+                    'm_wires.Status', null,
+                    function (row, i) {
+                        let status = "";
+                        if (row.Status == WireStatus.REQUESTED)
+                            status = "Diajukan";
+
+                        if (row.Status == WireStatus.APPROVED)
+                            status = "Diterima";
+
+                        if (row.Status == WireStatus.REJECTED)
+                            status = "Ditolak";
+                        return status;
+                    }
+                ).
+                addColumn(
+                    'm_wires.IsActive',
                     null,
-                    function(row, id){
+                    function (row, i) {
+                        return row.IsActive == 1 ? "<div class='text-success'><b>Ya</b></div>" : "Tidak";
+                    }
+                ).
+                addColumn(
+                    'm_wires.Created',
+                    null,
+                    function (row, id) {
                         return DateFormat.getFromatedDate(row.Created)
                     },
                     false
+                ).
+                addColumn(
+                    'm_wires.CreatedBy',
+
                 ).
                 addColumn(
                     '',
@@ -86,14 +135,14 @@ class MwireController extends BaseController {
         }
     }
 
-    async add({session}) {
+    async add({ session }) {
 
         const colors = await M_colors.findAll();
         const types = await M_wiretypes.findAll();
 
         const params = {
-            order : {
-                Created : "DESC"
+            order: {
+                Created: "DESC"
             }
         };
         const model = await M_wires.findOneOrNew(params);
@@ -105,7 +154,12 @@ class MwireController extends BaseController {
         const user = UserProc.decode(session.token);
         try {
             const body = request.body;
-            let wire = new M_wires();
+            const params = {
+                where: {
+                    Status: WireStatus.REQUESTED
+                }
+            }
+            let wire = M_wires.findOneOrNew(params);
             wire.Name = body.Name;
             wire.M_Color_Id = body.M_Color_Id;
             wire.M_Wiretype_Id = body.M_Wiretype_Id;
@@ -126,50 +180,7 @@ class MwireController extends BaseController {
         }
     }
 
-    async edit({ params }) {
-        const id = params.id;
-        let wire = await M_wires.find(id);
-        return View.make("office/m_wire/edit", { title: 'Kabel', data: wire });
-    }
 
-
-    async update({ request }) {
-        const body = request.body;
-        try {
-            let wire = await M_wires.find(body.Id);
-            wire.Name = body.Name;
-            wire.Description = body.Description;
-            if (! await wire.save())
-                throw new ModelError("Gagal Mengubah Kabel");
-
-            return Redirect.to("/office/mwire");
-        } catch (e) {
-            return Redirect.to(`/office/mwire/${body.Id}/edit`);
-        }
-    }
-
-    async destroy({ request }) {
-        const body = request.body;
-        try {
-            let wire = await M_wires.find(body.Id);
-            if (! await wire.delete())
-                throw new ModelError("Gagal Menghapus Kabel");
-
-            let result = {
-                Message :  "Berhasil Menghapus Data",
-                Data : null,
-                Response : ResponseCode.OK
-             }
-            return ResponseData.status(200).json(result);
-        } catch (e) {
-            let result = {
-                Message :  e.message,
-                Data : null,
-                Response : ResponseCode.FAILED_DELETE_DATA
-             }
-            return ResponseData.status(400).json(result);
-        }
-    }
 
 }
 

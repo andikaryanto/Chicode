@@ -60,7 +60,7 @@ const Web = () => {
           });
 
           routers.group("/mwire", [], routers => {
-               routers.get("history", [], MwireController, "index");
+               routers.get("/history", [], MwireController, "index");
                routers.post("/getalldata", [], MwireController, "getAllData");
                routers.get("/add", [], MwireController, "add");
                routers.post("/store", [], MwireController, "store");

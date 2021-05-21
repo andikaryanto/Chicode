@@ -40,10 +40,17 @@ html
                                              
                                              div(class="col-md-12 pt-3")
                                                   label(for="description") Warna
-                                                  select(aria-label=".form-select example"  name="M_Color_id" id="groupuerid" value="" class="form-select form-select mb-3")
+                                                  select(aria-label=".form-select example"  name="M_Color_Id" id="colorid" value="" class="form-select form-select mb-3")
                                                        option(value="0") Pilih Warna
+                                                       
+                                                       #logical
                                                        each color in colors
-                                                            option(value=color.Id) #{color.Name}
+                                                            - var select = ""
+                                                            
+                                                            if color.Id == model.M_Wiretype_Id
+                                                                 option(value=color.Id  selected) #{color.Name}
+                                                            esle 
+                                                                 option(value=color.Id ) #{color.Name}
                                              div(class="col-md-12 pt-3")
                                                   label(for="description") Jenis
                                                   select(aria-label=".form-select example"  name="M_Wiretype_Id" id="groupuerid" value="" class="form-select form-select mb-3")
@@ -51,11 +58,11 @@ html
 
                                                        #logical
                                                        each tipe in types
-                                                            - var select = ""
                                                             
                                                             if tipe.Id == model.M_Wiretype_Id
-                                                                - select = "selected" 
-                                                            option(value=tipe.Id selected=select) #{tipe.Name}
+                                                                 option(value=tipe.Id selected) #{tipe.Name}
+                                                            esle 
+                                                                 option(value=tipe.Id ) #{tipe.Name}
 
                                              div(class="col-md-12 pt-3")
                                                   label(for="length") Panjang

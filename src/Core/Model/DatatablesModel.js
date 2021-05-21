@@ -219,8 +219,18 @@ class DatatablesModel {
 			ispassedback: ispassedBack,
 		};
 		this.#_column.push(columns);
-		if(column != null && column != '')
-			this.#_columnsOnly.push(column);
+		if(column != null && column != ''){
+			let col = column.split(".");
+			let newcolumn = "";
+			if (col.length === 3) {
+				newcolumn = `${col[0]}.${col[1]} as ${col[2]}`;
+			} else if (col.length === 2) {
+				newcolumn = `${col[0]}.${col[1]}`;
+			} else {
+				newcolumn = col[0];
+			}
+			this.#_columnsOnly.push(newcolumn);
+		}
 		return this;
 	}
 
