@@ -141,6 +141,7 @@ class MwireController extends BaseController {
         const types = await M_wiretypes.findAll();
 
         const params = {
+            
             order: {
                 Created: "DESC"
             }
@@ -159,7 +160,7 @@ class MwireController extends BaseController {
                     Status: WireStatus.REQUESTED
                 }
             }
-            let wire = M_wires.findOneOrNew(params);
+            let wire = await M_wires.findOneOrNew(params);
             wire.Name = body.Name;
             wire.M_Color_Id = body.M_Color_Id;
             wire.M_Wiretype_Id = body.M_Wiretype_Id;
@@ -170,7 +171,6 @@ class MwireController extends BaseController {
             wire.IsActive = 0;
             wire.Created = DateFormat.getCurrentDate("YYYY-MM-DD HH:mm:ss");
             wire.CreatedBy = user.Username;
-            console.log(wire);
             if (! await wire.save())
                 throw new ModelError("Gagal Menyimpan Kabel");
 

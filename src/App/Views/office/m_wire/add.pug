@@ -47,10 +47,10 @@ html
                                                        each color in colors
                                                             - var select = ""
                                                             
-                                                            if color.Id == model.M_Wiretype_Id
+                                                            if color.Id == model.M_Color_Id
                                                                  option(value=color.Id  selected) #{color.Name}
-                                                            esle 
-                                                                 option(value=color.Id ) #{color.Name}
+                                                            else 
+                                                                 option(value=color.Id) #{color.Name}
                                              div(class="col-md-12 pt-3")
                                                   label(for="description") Jenis
                                                   select(aria-label=".form-select example"  name="M_Wiretype_Id" id="groupuerid" value="" class="form-select form-select mb-3")
@@ -58,11 +58,10 @@ html
 
                                                        #logical
                                                        each tipe in types
-                                                            
                                                             if tipe.Id == model.M_Wiretype_Id
                                                                  option(value=tipe.Id selected) #{tipe.Name}
-                                                            esle 
-                                                                 option(value=tipe.Id ) #{tipe.Name}
+                                                            else
+                                                                 option(value=tipe.Id) #{tipe.Name}
 
                                              div(class="col-md-12 pt-3")
                                                   label(for="length") Panjang

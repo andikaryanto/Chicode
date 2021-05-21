@@ -1,0 +1,21 @@
+Option 1
+     0. type "npm i"
+     1. create database "chicode"
+     2. import "chicode.sql" => default user is skywalker:hologram
+     3. set credential in .env of your database
+     4. npm run dev
+Option 2 (Use Migration) empty database
+     0. type "npm i"
+     1. create database "chicode" or whatever
+     2. set database name in .env with your credential
+     3. type "knex migrate:latest"
+     4. type "knex seed:run" => will insert default user skywalker:hologram
+     5. npm run dev
+
+Advice : better user Option 1 -> lets talk why.
+
+
+Not Running ?
+- Lets talk, lets break it down the code.
+
+Hope this serves the best.

@@ -49,60 +49,6 @@ class UserApi extends Controller{
           }
      }
 
-     async store({request}) {
-          let body = request.body;
-          let trx = await DbTrans.beginTransaction();
-          try {
-               let user = new M_users();
-               user.parseFromRequest();
-               user.setPassword(body.Password);
-               await user.save(trx);
-               trx.commit();
-               return ResponseData.status(200).json(user);
-          } catch(e){
-               trx.rollback();
-               result = {
-                    Message: e.message,
-                    Data: null,
-                    Response: ResponseCode.FAILED_SAVE_DATA
-               }
-               return ResponseData.status(400).json(user);
-          }
-     }
-
-     async update({request}) {
-          let Id = request.params.Id;
-          let trx = await DbTrans.beginTransaction();
-          try {
-               let user = await M_users.find(Id);
-               user.Username = "andik";
-               await user.save(trx);
-               trx.commit();
-               return ResponseData.status(200).json(user);
-          } catch(e){
-               trx.rollback();
-               result = {
-                    Message: e.message,
-                    Data: null,
-                    Response: ResponseCode.FAILED_SAVE_DATA
-               }
-               return ResponseData.status(400).json(user);
-          }
-     }
-
-     async list({request}) {
-          try {
-               let users = await M_users.findAll();
-               return ResponseData.status(200).json(users);
-          } catch(e){
-               result = {
-                    Message: e.message,
-                    Data: null,
-                    Response: ResponseCode.FAILED_SAVE_DATA
-               }
-               return ResponseData.status(400).json(user);
-          }
-     }
 }
 
 export default UserApi;
